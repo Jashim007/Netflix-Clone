@@ -1,25 +1,55 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect } from "react";
+import Homescreen from "./Homescreen";
+import Login from "./Login";
+import { onAuthStateChanged } from "firebase/auth";
+import { auth } from "./firebase-config";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { login, logout } from "./features/userSlice";
+import { useSelector } from "react-redux";
+import { currentUser } from "./features/userSlice";
+import Profile from "./Profile";
 
-function App() {
+const App = () => {
+  const dispatch = useDispatch();
+
+  const user = useSelector(currentUser);
+  console.log(user);
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user != null) {
+        console.log(user);
+        dispatch(
+          login({
+            uid: user.uid,
+            email: user.email,
+          })
+        );
+      } else {
+        dispatch(
+          logout({
+            uid: user.uid,
+            email: user.email,
+          })
+        );
+      }
+    });
+    return unsubscribe;
+  }, [dispatch]);
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <BrowserRouter>
+        {user.user == null ? (
+          <Login />
+        ) : (
+          <Routes>
+            <Route path="/" element={<Homescreen />} />
+            <Route path="/profile" element={<Profile />} />
+          </Routes>
+        )}
+      </BrowserRouter>
     </div>
   );
-}
+};
 
 export default App;
