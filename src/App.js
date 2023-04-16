@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import Homescreen from "./Homescreen";
 import Login from "./Login";
+import SingleMovie from "./SingleMovie";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase-config";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -12,7 +13,7 @@ import Profile from "./Profile";
 
 const App = () => {
   const dispatch = useDispatch();
-
+  console.log(dispatch);
   const user = useSelector(currentUser);
   console.log(user);
   useEffect(() => {
@@ -39,12 +40,13 @@ const App = () => {
   return (
     <div>
       <BrowserRouter>
-        {user.user == null ? (
+        {user?.user === undefined || user?.user?.length === 0 ? (
           <Login />
         ) : (
           <Routes>
             <Route path="/" element={<Homescreen />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/movie/:id" element={<SingleMovie />}></Route>
           </Routes>
         )}
       </BrowserRouter>

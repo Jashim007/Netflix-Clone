@@ -1,27 +1,43 @@
 import React, { useState } from "react";
 import { auth } from "./firebase-config";
+
+import { login } from "./features/userSlice";
+import { useDispatch } from "react-redux";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from "firebase/auth";
+
 const Signin = () => {
+  const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const register = async (e) => {
     try {
-      e.preventDefault();
       const res = await createUserWithEmailAndPassword(auth, email, password);
       console.log(res);
+      dispatch(
+        login({
+          uid: res.user.uid,
+          email: res.user.email,
+        })
+      );
     } catch (error) {
       alert(error.message);
     }
   };
-  const login = async (e) => {
+  const loggingIn = async (e) => {
     try {
-      e.preventDefault();
       const res = await signInWithEmailAndPassword(auth, email, password);
       console.log(res);
+
+      dispatch(
+        login({
+          uid: res.user.uid,
+          email: res.user.email,
+        })
+      );
     } catch (error) {
       alert(error.message);
     }
@@ -65,7 +81,7 @@ const Signin = () => {
             />
             <button
               className="h-12 w-full p-2 bg-red-600 rounded-sm mt-3 text-white active:scale-95"
-              onClick={login}
+              onClick={loggingIn}
             >
               Sign In
             </button>
