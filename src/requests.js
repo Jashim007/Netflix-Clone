@@ -1,5 +1,3 @@
-import { instance } from "./axios";
-
 const API_KEY = "716a23024113aad0cd75c8523bc1dea2";
 
 const request = {

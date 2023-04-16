@@ -20,14 +20,14 @@ const Row = (props) => {
       }
     };
     getMovieData();
-  }, []);
+  }, [fetchUrl]);
 
   return (
     <div className="bg-black pt-10">
       <div className="header text-lg text-white font-semibold pl-10">
         {title}
       </div>
-      {props?.isLarge == "True" ? (
+      {props?.isLarge === "True" ? (
         <div className="flex gap-2 h-72 w-screen pt-5 pl-10 bg-black overflow-x-auto no-scrollbar">
           {movies.map((e) => {
             return (
