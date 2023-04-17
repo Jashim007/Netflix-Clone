@@ -12,7 +12,7 @@ const SingleMovie = () => {
   useEffect(() => {
     const getMovieData = async () => {
       try {
-        const URL = `https://api.themoviedb.org/3/movie/${id}?api_key=716a23024113aad0cd75c8523bc1dea2&language=en-US`;
+        const URL = `https://api.themoviedb.org/3/movie/${id}?api_key=716a23024113aad0cd75c8523bc1dea2&language=en-US&append_to_response=videos`;
         console.log(URL);
         console.log(URL);
         const results = await fetch(URL);
@@ -27,6 +27,19 @@ const SingleMovie = () => {
     getMovieData();
   }, [id]);
   console.log(singleMovie);
+  let TrailerLink = "";
+
+  if (
+    Object.keys(singleMovie).length > 0 &&
+    singleMovie?.videos?.results.length > 0
+  ) {
+    let trailer_arr = singleMovie?.videos?.results.filter((e) =>
+      e.name.toLowerCase().includes("trailer")
+    );
+    console.log(trailer_arr);
+    TrailerLink = `https://www.youtube.com/watch?v=${trailer_arr[0].key}`;
+    console.log(TrailerLink);
+  }
   return (
     <div className="h-screen w-screen bg-black">
       <Navbar />
@@ -46,16 +59,30 @@ const SingleMovie = () => {
                   singleMovie?.original_name}
               </div>
               <div className="btn_list flex font-bold">
-                <button className="h-8 w-28 p-2 m-2 bg-slate-900/30 rounded-sm flex items-center justify-center active:scale-95 border border-white ">
-                  Play Teaser
-                </button>
-                <button className="h-8 w-28 p-2 m-2 bg-slate-900/30 rounded-sm flex items-center justify-center active:scale-95 border border-white ">
-                  Play Trailer
-                </button>
+                <a
+                  className="h-8 w-28 p-2 m-2 bg-slate-900/30 rounded-sm flex items-center justify-center active:scale-95 border border-white "
+                  target="_blank"
+                  rel="noreferrer"
+                  href={`https://www.imdb.com/title/${singleMovie?.imdb_id}/`}
+                >
+                  IMDB Link
+                </a>
+                {singleMovie?.videos?.results.length > 0 ? (
+                  <a
+                    className="h-8 w-28 p-2 m-2 bg-slate-900/30 rounded-sm flex items-center justify-center active:scale-95 border border-white "
+                    target="_blank"
+                    rel="noreferrer"
+                    href={TrailerLink}
+                  >
+                    Play Trailer
+                  </a>
+                ) : (
+                  <></>
+                )}
               </div>
               <div className="font-bold">
                 Genre:
-                {singleMovie?.genres.map((e) => {
+                {singleMovie?.genres?.map((e) => {
                   return <span className="p-2">{e.name}</span>;
                 })}
               </div>

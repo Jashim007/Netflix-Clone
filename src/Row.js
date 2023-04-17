@@ -30,6 +30,7 @@ const Row = (props) => {
       {props?.isLarge === "True" ? (
         <div className="flex gap-2 h-72 w-screen pt-5 pl-10 bg-black overflow-x-auto no-scrollbar">
           {movies.map((e) => {
+            console.log(e);
             return (
               <NavLink to={`/movie/:${e.id}`} className="min-w-[200px]">
                 <img
