@@ -80,7 +80,7 @@ const Profile = () => {
                 />
                 <div className="form flex flex-col mt-8 gap-5 w-full">
                   <div className="emailid h-8 bg-slate-600 text-white px-3 flex items-center justify-start rounded-sm">
-                    Jashim@gmail.com
+                    {user?.user?.email}
                   </div>
                   <div className="emailid h-8 text-white">
                     Plans (Current Plan: {userPlan})
@@ -138,7 +138,7 @@ const Profile = () => {
                 />
                 <div className="form flex flex-col mt-8 gap-5 w-full">
                   <div className="emailid h-8 bg-slate-600 text-white px-3 flex items-center justify-start rounded-sm">
-                    Jashim@gmail.com
+                    {user?.user?.email}
                   </div>
                   <div className="emailid h-8 text-white">
                     Plans (Current Plan: Premium)
