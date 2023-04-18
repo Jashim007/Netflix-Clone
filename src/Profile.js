@@ -17,6 +17,7 @@ const Profile = () => {
   const user = useSelector(currentUser);
 
   const [userData, setUserData] = useState([]);
+  console.log("Hello");
 
   /* ---------Getting Data from database------------------- */
 
