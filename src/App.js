@@ -42,7 +42,7 @@ const App = () => {
     return unsubscribe;
   }, [dispatch]);
   return (
-    <div>
+    <div className="overflow-x-hidden no-scrollbar ">
       <BrowserRouter>
         {user?.user === undefined || user?.user?.length === 0 ? (
           <Login />
