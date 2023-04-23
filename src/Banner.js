@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "./axios";
 import request from "./requests";
+import { NavLink } from "react-router-dom";
 
 const Banner = () => {
   const [banner, setBanner] = useState({});
@@ -44,9 +45,12 @@ const Banner = () => {
           <button className="h-8 w-28 p-2 m-2 bg-slate-900/30 rounded-sm flex items-center justify-center active:scale-95 border border-white ">
             Play
           </button>
-          <button className="h-8 w-28 p-2 m-2 bg-slate-900/30   rounded-sm flex items-center justify-center active:scale-95 border border-white">
-            My List
-          </button>
+          <NavLink
+            to="/categories"
+            className="h-8 w-28 p-2 m-2 bg-slate-900/30   rounded-sm flex items-center justify-center active:scale-95 border border-white"
+          >
+            Categories
+          </NavLink>
         </div>
         <div className="movie_desc font-bold">
           {movieDescTruncate(banner?.overview, 200)}

@@ -5,6 +5,8 @@ import { logout } from "./features/userSlice";
 import { useDispatch } from "react-redux";
 import { currentUser } from "./features/userSlice";
 import { useSelector } from "react-redux";
+import { signOut } from "firebase/auth";
+import { auth } from "./firebase-config";
 /* ----------------------------------------------------------- */
 
 import { collection, getDocs, addDoc } from "firebase/firestore";
@@ -17,11 +19,21 @@ const Profile = () => {
   const user = useSelector(currentUser);
 
   const [userData, setUserData] = useState([]);
-  console.log("Hello");
 
   /* ---------Getting Data from database------------------- */
 
   const studentDatabaseRef = collection(db, "Netflix_Users");
+
+  const loggingOut = async (e) => {
+    try {
+      const res = await signOut(auth);
+      console.log(res);
+
+      dispatch(logout());
+    } catch (error) {
+      alert(error.message);
+    }
+  };
 
   useEffect(() => {
     const getUsers = async () => {
@@ -114,7 +126,7 @@ const Profile = () => {
                     <button
                       className="p-2 w-full bg-red-600 text-white active:scale-95"
                       onClick={() => {
-                        dispatch(logout());
+                        loggingOut();
                       }}
                     >
                       Sign Out
@@ -190,7 +202,7 @@ const Profile = () => {
                     <button
                       className="p-2 w-full bg-red-600 text-white active:scale-95"
                       onClick={() => {
-                        dispatch(logout());
+                        loggingOut();
                       }}
                     >
                       Sign Out

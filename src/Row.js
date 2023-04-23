@@ -4,6 +4,7 @@ import { NavLink } from "react-router-dom";
 
 const Row = (props) => {
   const [movies, setMovies] = useState([]);
+  const [imgLoad, setImgLoad] = useState(false);
 
   const { title, fetchUrl } = props;
 
@@ -22,36 +23,76 @@ const Row = (props) => {
     getMovieData();
   }, [fetchUrl]);
 
-  return (
-    <div className="bg-black pt-10">
-      <div className="header text-lg text-white font-semibold pl-10">
-        {title}
+  return movies.length === 0 ? (
+    <>
+      <div className="bg-black pt-10">
+        <div className="header text-lg text-white font-semibold pl-10">
+          {title}
+        </div>
+        {props?.isLarge === "True" ? (
+          <div className="flex gap-2 h-72 w-screen pt-5 pl-10 bg-black overflow-x-auto no-scrollbar">
+            {Array(20)
+              .fill(0)
+              .map((e) => {
+                console.log(e);
+                return (
+                  <div className="min-w-[200px] animate-pulse bg-gray-500"></div>
+                );
+              })}
+          </div>
+        ) : (
+          <div className="flex gap-2 h-36 w-screen pt-5 pl-10 bg-black overflow-x-auto no-scrollbar">
+            {Array(20)
+              .fill(0)
+              .map((e) => {
+                console.log(e);
+                return (
+                  <div className="min-w-[200px] animate-pulse  bg-gray-500"></div>
+                );
+              })}
+          </div>
+        )}
       </div>
+    </>
+  ) : (
+    <div className="bg-black pt-10">
+      <div className="header text-lg text-white font-semibold">{title}</div>
       {props?.isLarge === "True" ? (
-        <div className="flex gap-2 h-72 w-screen pt-5 pl-10 bg-black overflow-x-auto no-scrollbar">
+        <div className="flex gap-2  w-screen pt-5  bg-black overflow-x-auto no-scrollbar">
           {movies.map((e) => {
             console.log(e);
             return (
-              <NavLink to={`/movie/:${e.id}`} className="min-w-[200px]">
+              <NavLink
+                to={`/tv/:${e.id}`}
+                className={`min-w-[200px] ${!imgLoad ? "hidden" : "block"}`}
+              >
                 <img
                   src={`https://image.tmdb.org/t/p/original/${e.poster_path}`}
                   alt=""
                   className="h-full w-full rounded-sm transition-all duration-500 hover:scale-105 cursor-pointer"
+                  onLoad={() => {
+                    setImgLoad(true);
+                  }}
                 />
               </NavLink>
-              /* <iframe width="560" height="315" src="https://www.youtube.com/embed/yP-Qduvw9zY" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */
             );
           })}
         </div>
       ) : (
-        <div className="flex gap-2 h-36 w-screen pt-5 pl-10 bg-black overflow-x-auto no-scrollbar">
+        <div className="flex gap-2 h-36 w-screen pt-5  bg-black overflow-x-auto no-scrollbar">
           {movies.map((e) => {
             return (
-              <NavLink to={`/movie/:${e.id}`} className="min-w-[250px]">
+              <NavLink
+                to={`/movie/:${e.id}`}
+                className={`min-w-[250px] ${!imgLoad ? "hidden" : "block"}`}
+              >
                 <img
                   src={`https://image.tmdb.org/t/p/original/${e.backdrop_path}`}
                   alt=""
                   className="h-full w-full rounded-sm transition-all duration-500 hover:scale-105 cursor-pointer"
+                  onLoad={() => {
+                    setImgLoad(true);
+                  }}
                 />
               </NavLink>
             );

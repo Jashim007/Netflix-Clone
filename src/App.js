@@ -2,6 +2,10 @@ import React, { useEffect } from "react";
 import Homescreen from "./Homescreen";
 import Login from "./Login";
 import SingleMovie from "./SingleMovie";
+import MovieSearch from "./MovieSearch";
+import Categories from "./Categories";
+import CategoryList from "./CategoryList";
+import SingleSeries from "./SingleSeries";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "./firebase-config";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -47,6 +51,13 @@ const App = () => {
             <Route path="/" element={<Homescreen />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/movie/:id" element={<SingleMovie />}></Route>
+            <Route path="/tv/:id" element={<SingleSeries />}></Route>
+            <Route path="/movieSearch" element={<MovieSearch />}></Route>
+            <Route path="/categories" element={<Categories />}></Route>
+            <Route
+              path="/categoryList/:contentType/:id"
+              element={<CategoryList />}
+            ></Route>
           </Routes>
         )}
       </BrowserRouter>
