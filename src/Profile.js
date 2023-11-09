@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Navbar from "./Navbar";
-import Userplan from "./Userplan";
 import { logout } from "./features/userSlice";
 import { useDispatch } from "react-redux";
 import { currentUser } from "./features/userSlice";
@@ -9,8 +8,7 @@ import { signOut } from "firebase/auth";
 import { auth } from "./firebase-config";
 /* ----------------------------------------------------------- */
 
-import { collection, getDocs, addDoc } from "firebase/firestore";
-import db from "./firebase-config";
+
 
 /* ----------------------------------------------------------- */
 
@@ -18,11 +16,8 @@ const Profile = () => {
   const dispatch = useDispatch();
   const user = useSelector(currentUser);
 
-  const [userData, setUserData] = useState([]);
 
-  /* ---------Getting Data from database------------------- */
-
-  const studentDatabaseRef = collection(db, "Netflix_Users");
+  const [userPlan, setUserPlan] = useState(["Netflix Basic"]);
 
   const loggingOut = async (e) => {
     try {
@@ -34,49 +29,6 @@ const Profile = () => {
       alert(error.message);
     }
   };
-
-  useEffect(() => {
-    const getUsers = async () => {
-      const studentData = await getDocs(studentDatabaseRef);
-      let d = studentData.docs.map((item) => {
-        return { ...item.data(), id: item.id };
-      });
-      setUserData(d);
-    };
-    getUsers();
-  }, [studentDatabaseRef]);
-
-  /* ---------Getting Data from database------------------- */
-  let filteredData = [];
-  let userPlan = "";
-
-  if (
-    userData.length > 0 &&
-    user?.user !== undefined &&
-    user?.user?.length !== 0
-  ) {
-    filteredData = userData.filter((e) => e.Email === user.user.email);
-  }
-
-  if (
-    userData.length > 0 &&
-    user?.user !== undefined &&
-    user?.user?.length !== 0
-  ) {
-    if (filteredData.length > 0) {
-      userPlan = filteredData[0].Plan;
-    } else {
-      userPlan = "Netflix Basic";
-      const addUser = async () => {
-        await addDoc(studentDatabaseRef, {
-          Email: user?.user?.email,
-          Plan: "Netflix Basic",
-        });
-      };
-      addUser();
-    }
-  }
-
   return (
     <>
       {userPlan.length > 0 ? (
@@ -101,27 +53,87 @@ const Profile = () => {
                   <div className="emailid h-8 text-white text-sm">
                     Renewal Date: 04/03/2021
                   </div>
-                  <Userplan
-                    planName="Netflix Basic"
-                    quality="480p"
-                    currentPlan={userPlan}
-                    email={user?.user?.email}
-                    userId={filteredData[0].id}
-                  />
-                  <Userplan
-                    planName="Netflix Standard"
-                    quality="1080p"
-                    currentPlan={userPlan}
-                    email={user?.user?.email}
-                    userId={filteredData[0].id}
-                  />
-                  <Userplan
-                    planName="Netflix Premium"
-                    quality="4k"
-                    currentPlan={userPlan}
-                    email={user?.user?.email}
-                    userId={filteredData[0].id}
-                  />
+                
+                  <div className="emailid h-8 text-white text-sm">
+                    <div className="flex justify-between">
+                      <div className="flex flex-col">
+                        <div>Netflix Basic</div>
+                        <div>480p</div>
+                      </div>
+                      <div>
+                        {"Netflix Basic" === userPlan ? (
+                          <button className="p-2 w-full bg-white text-red-600 active:scale-95">
+                            Subscribed
+                          </button>
+                        ) : (
+                          <button
+                            className="p-2 w-full bg-red-600 active:scale-95"
+                            onClick={() => {
+                              setUserPlan("Netflix Basic");
+                            }}
+                          >
+                            Subscribe
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+   
+                  
+                
+                  <div className="emailid h-8 text-white text-sm">
+                    <div className="flex justify-between">
+                      <div className="flex flex-col">
+                        <div>Netflix Standard</div>
+                        <div>720p</div>
+                      </div>
+                      <div>
+                        {"Netflix Standard" === userPlan ? (
+                          <button className="p-2 w-full bg-white text-red-600 active:scale-95">
+                            Subscribed
+                          </button>
+                        ) : (
+                          <button
+                            className="p-2 w-full bg-red-600 active:scale-95"
+                            onClick={() => {
+                              setUserPlan("Netflix Standard");
+                            }}
+                          >
+                            Subscribe
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+   
+                
+                  
+                  <div className="emailid h-8 text-white text-sm">
+                    <div className="flex justify-between">
+                      <div className="flex flex-col">
+                        <div>Netflix Premium</div>
+                        <div>1080p</div>
+                      </div>
+                      <div>
+                        {"Netflix Premium" === userPlan ? (
+                          <button className="p-2 w-full bg-white text-red-600 active:scale-95">
+                            Subscribed
+                          </button>
+                        ) : (
+                          <button
+                            className="p-2 w-full bg-red-600 active:scale-95"
+                            onClick={() => {
+                              setUserPlan("Netflix Premium");
+                            }}
+                          >
+                            Subscribe
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </div>
+   
+                 
                   <div>
                     <button
                       className="p-2 w-full bg-red-600 text-white active:scale-95"
