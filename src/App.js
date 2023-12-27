@@ -14,6 +14,8 @@ import { login, logout } from "./features/userSlice";
 import { useSelector } from "react-redux";
 import { currentUser } from "./features/userSlice";
 import Profile from "./Profile";
+import Signin from './Signin';
+import Signup from './Signup';
 
 const App = () => {
   const dispatch = useDispatch();
@@ -50,10 +52,13 @@ const App = () => {
           <Routes>
             <Route path="/" element={<Homescreen />} />
             <Route path="/profile" element={<Profile />} />
+            <Route path="/signin" element={<Signin />} />
+            <Route path="/signup" element={<Signup />} />
             <Route path="/movie/:id" element={<SingleMovie />}></Route>
             <Route path="/tv/:id" element={<SingleSeries />}></Route>
             <Route path="/movieSearch" element={<MovieSearch />}></Route>
             <Route path="/categories" element={<Categories />}></Route>
+            
             <Route
               path="/categoryList/:contentType/:id"
               element={<CategoryList />}

@@ -2,11 +2,12 @@ import React, { useState, useEffect } from "react";
 import Navbar from "./Navbar";
 import { NavLink } from "react-router-dom";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
+import BlurredImageComponent from './BlurredImageComponent';
 
 const MovieSearch = () => {
   const [movieSearch, setMovieSearch] = useState("");
   const [movies, setMovies] = useState([]);
-  const [imgLoad, setImgLoad] = useState(false);
+
   const [currPage, setCurrPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const API_URL = `https://api.themoviedb.org/3/search/movie?api_key=716a23024113aad0cd75c8523bc1dea2&query=${movieSearch}&page=${currPage}`;
@@ -26,7 +27,7 @@ const MovieSearch = () => {
     setMovies(data.results.filter((e) => e.poster_path != null));
     setTotalPages(data.total_pages);
 
-    console.log(data);
+   
   };
   useEffect(() => {
     if (movieSearch.length === 0) {
@@ -38,7 +39,7 @@ const MovieSearch = () => {
     return () => {
       clearTimeout(x);
     };
-  }, [movieSearch, currPage]);
+  }, [movieSearch, currPage, API_URL]);
   console.log(movies);
   return movies.length === 0 ? (
     <div className="bg-black h-screen w-screen">
@@ -50,9 +51,10 @@ const MovieSearch = () => {
           onChange={(e) => setMovieSearch(e.target.value)}
         />
       </div>
+
       {movieSearch.length > 0 ? (
         <>
-          <div className="grid grid-cols-5 grid-rows-4 gap-4 w-screen p-5 bg-black ">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-10 w-screen p-5 bg-black ">
             {Array(20)
               .fill(0)
               .map((e) => {
@@ -78,20 +80,13 @@ const MovieSearch = () => {
         />
       </div>
       <div className="flex flex-col">
-        <div className="grid auto-rows-fr grid-cols-5 gap-4  w-screen p-5 bg-black ">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 grid-auto-rows gap-10  w-screen p-5 bg-black ">
           {movies.map((e) => {
             return (
-              <NavLink
-                to={`/movie/:${e.id}`}
-                className={`min-w-[200px] ${!imgLoad ? "hidden" : "block"}`}
-              >
-                <img
+              <NavLink to={`/movie/:${e.id}`} className={`min-w-[200px]`}>
+                
+                <BlurredImageComponent
                   src={`https://image.tmdb.org/t/p/original/${e.poster_path}`}
-                  alt=""
-                  className="h-full w-full rounded-sm transition-all duration-500 hover:scale-105 cursor-pointer"
-                  onLoad={() => {
-                    setImgLoad(true);
-                  }}
                 />
               </NavLink>
             );

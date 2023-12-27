@@ -4,7 +4,7 @@ import { HiSearch } from "react-icons/hi";
 
 const Navbar = () => {
   const [navbar, setNavbar] = useState(true);
-  const [showSearchbar, setShowSearchbar] = useState(false);
+
   const changeBackground = (e) => {
     if (window.scrollY > 20) {
       setNavbar(false);
@@ -34,13 +34,13 @@ const Navbar = () => {
           />
         </Link>
 
-        <div className="flex items-center gap-14">
+        <div className="flex items-center gap-2 md:gap-10 lg:gap-14">
           <Link to="/movieSearch" className="flex gap-2 items-center">
             <div className="text-white">Search</div>
 
             <HiSearch
               className="text-white pt-1"
-              onMouseEnter={() => setShowSearchbar(true)}
+              
             />
           </Link>
           <Link to="/categories" className="text-white ">

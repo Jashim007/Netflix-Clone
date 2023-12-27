@@ -32,7 +32,7 @@ const Categories = () => {
       <Navbar />
       <div className="content pt-20  bg-black">
         <div className="font-bold text-2xl pl-5">Movie Categories</div>
-        <div className="grid auto-rows-fr grid-cols-5 gap-4  w-screen p-5">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 grid-auto-rows  gap-4  w-screen p-5">
           {movieCat.length === 0 ? (
             <></>
           ) : (
@@ -42,8 +42,7 @@ const Categories = () => {
                   <NavLink
                     to={`/categoryList/:${contentTypeMovies}/:${e.id}`}
                     className="p-5 text-white bg-gray-600 shadow-md rounded-md flex items-center justify-center
-                  hover:scale-105"
-                  >
+                  hover:scale-105">
                     {e.name}
                   </NavLink>
                 );
@@ -53,7 +52,7 @@ const Categories = () => {
         </div>
 
         <div className="font-bold text-2xl pl-5">Series Categories</div>
-        <div className="grid auto-rows-fr grid-cols-5 gap-4  w-screen p-5">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 grid-auto-rows  gap-4  w-screen p-5">
           {seriesCat.length === 0 ? (
             <></>
           ) : (
@@ -63,8 +62,7 @@ const Categories = () => {
                   <NavLink
                     to={`/categoryList/:${contentTypeSeries}/:${e.id}`}
                     className="p-5 text-white bg-gray-600 shadow-md rounded-md flex items-center justify-center
-                  hover:scale-105"
-                  >
+                  hover:scale-105">
                     {e.name}
                   </NavLink>
                 );

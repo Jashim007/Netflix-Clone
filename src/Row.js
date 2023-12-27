@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "./axios";
 import { NavLink } from "react-router-dom";
+import BlurredImageComponent from './BlurredImageComponent';
 
 const Row = (props) => {
   const [movies, setMovies] = useState([]);
-  const [imgLoad, setImgLoad] = useState(false);
-
   const { title, fetchUrl } = props;
 
   useEffect(() => {
@@ -60,19 +59,12 @@ const Row = (props) => {
       {props?.isLarge === "True" ? (
         <div className="flex gap-2  w-screen pt-5  bg-black overflow-x-auto no-scrollbar">
           {movies.map((e) => {
-            console.log(e);
+      
             return (
-              <NavLink
-                to={`/tv/:${e.id}`}
-                className={`min-w-[200px] ${!imgLoad ? "hidden" : "block"}`}
-              >
-                <img
+              <NavLink to={`/tv/:${e.id}`} className={`min-w-[200px]`}>
+                
+                <BlurredImageComponent
                   src={`https://image.tmdb.org/t/p/original/${e.poster_path}`}
-                  alt=""
-                  className="h-full w-full rounded-sm transition-all duration-500 hover:scale-105 cursor-pointer"
-                  onLoad={() => {
-                    setImgLoad(true);
-                  }}
                 />
               </NavLink>
             );
@@ -84,15 +76,11 @@ const Row = (props) => {
             return (
               <NavLink
                 to={`/movie/:${e.id}`}
-                className={`min-w-[250px] ${!imgLoad ? "hidden" : "block"}`}
-              >
-                <img
+                className={`min-w-[250px]`}>
+                
+
+                <BlurredImageComponent
                   src={`https://image.tmdb.org/t/p/original/${e.backdrop_path}`}
-                  alt=""
-                  className="h-full w-full rounded-sm transition-all duration-500 hover:scale-105 cursor-pointer"
-                  onLoad={() => {
-                    setImgLoad(true);
-                  }}
                 />
               </NavLink>
             );

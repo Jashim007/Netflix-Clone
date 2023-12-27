@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import Navbar from "./Navbar";
 import { NavLink } from "react-router-dom";
 import { HiChevronLeft, HiChevronRight } from "react-icons/hi";
+import BlurredImageComponent from './BlurredImageComponent';
 
 const CategoryList = () => {
   let { id, contentType } = useParams();
@@ -12,7 +13,7 @@ const CategoryList = () => {
   console.log(id);
 
   const [movies, setMovies] = useState([]);
-  const [imgLoad, setImgLoad] = useState(false);
+
   const [currPage, setCurrPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const API_URL = `https://api.themoviedb.org/3/discover/${contentType}?api_key=716a23024113aad0cd75c8523bc1dea2&with_genres=${id}&page=${currPage}`;
@@ -36,7 +37,7 @@ const CategoryList = () => {
   };
   useEffect(() => {
     getMovies(API_URL);
-  }, [currPage]);
+  }, [currPage, API_URL]);
   console.log(movies);
   return movies.length === 0 ? (
     <div className="bg-black h-screen w-screen">
@@ -44,7 +45,7 @@ const CategoryList = () => {
 
       {
         <>
-          <div className="grid grid-cols-5 grid-rows-4 gap-4 w-screen p-5 bg-black ">
+          <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 grid-flow-row gap-4 w-screen p-5 bg-black ">
             {Array(20)
               .fill(0)
               .map((e) => {
@@ -62,20 +63,14 @@ const CategoryList = () => {
       <Navbar />
 
       <div className="flex flex-col pt-20">
-        <div className="grid auto-rows-fr grid-cols-5 gap-4  w-screen p-5 bg-black ">
+        <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 grid-flow-row gap-4  w-screen p-5 bg-black ">
           {movies.map((e) => {
             return (
               <NavLink
                 to={`/${contentType}/:${e.id}`}
-                className={`min-w-[200px] ${!imgLoad ? "hidden" : "block"}`}
-              >
-                <img
+                className={`min-w-[200px] `}>               
+                <BlurredImageComponent
                   src={`https://image.tmdb.org/t/p/original/${e.poster_path}`}
-                  alt=""
-                  className="h-full w-full rounded-sm transition-all duration-500 hover:scale-105 cursor-pointer"
-                  onLoad={() => {
-                    setImgLoad(true);
-                  }}
                 />
               </NavLink>
             );

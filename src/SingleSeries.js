@@ -34,7 +34,7 @@ const SingleSeries = () => {
     singleMovie?.videos?.results.length > 0
   ) {
     let trailer_arr = singleMovie?.videos?.results.filter((e) =>
-      e.name.toLowerCase().includes("trailer")
+      e.name.toLowerCase().includes("trailer"),
     );
     console.log(trailer_arr);
     TrailerLink = `https://www.youtube.com/watch?v=${trailer_arr[0].key}`;
@@ -50,10 +50,9 @@ const SingleSeries = () => {
             "
             style={{
               backgroundImage: `url(https://image.tmdb.org/t/p/original/${singleMovie?.backdrop_path})`,
-            }}
-          >
-            <div className="flex flex-col pl-10 justify-center h-full gap-2 w-2/3  text-white pt-10 bg-gradient-to-r from-black to-transparent">
-              <div className="title text-5xl font-extrabold">
+            }}>
+            <div className="flex flex-col pl-10 justify-center h-full gap-2  w-full md:w-2/3 text-white pt-10 bg-gradient-to-r from-black to-transparent">
+              <div className="title text-3xl md:text-5xl  font-extrabold">
                 {singleMovie?.title ||
                   singleMovie?.original_title ||
                   singleMovie?.original_name}
@@ -63,8 +62,7 @@ const SingleSeries = () => {
                   className="h-8 w-28 p-2 m-2 bg-slate-900/30 rounded-sm flex items-center justify-center active:scale-95 border border-white "
                   target="_blank"
                   rel="noreferrer"
-                  href={`https://www.imdb.com/title/${singleMovie?.imdb_id}/`}
-                >
+                  href={`https://www.imdb.com/title/${singleMovie?.imdb_id}/`}>
                   IMDB Link
                 </a>
                 {singleMovie?.videos?.results.length > 0 ? (
@@ -72,8 +70,7 @@ const SingleSeries = () => {
                     className="h-8 w-28 p-2 m-2 bg-slate-900/30 rounded-sm flex items-center justify-center active:scale-95 border border-white "
                     target="_blank"
                     rel="noreferrer"
-                    href={TrailerLink}
-                  >
+                    href={TrailerLink}>
                     Play Trailer
                   </a>
                 ) : (
@@ -82,8 +79,12 @@ const SingleSeries = () => {
               </div>
               <div className="font-bold">
                 Genre:
-                {singleMovie?.genres?.map((e) => {
-                  return <span className="p-2">{e.name}</span>;
+                {singleMovie?.genres?.map((e, index) => {
+                  return (
+                    <span className="p-2" key={index}>
+                      {e.name}
+                    </span>
+                  );
                 })}
               </div>
               <div className="font-bold">
@@ -94,7 +95,7 @@ const SingleSeries = () => {
                 Release Date:
                 <span className="p-2">{singleMovie?.release_date}</span>
               </div>
-              <div className="movie_desc font-bold w-1/2">
+              <div className="movie_desc font-bold w-full md:w-1/2">
                 {movieDescTruncate(singleMovie?.overview, 300)}
               </div>
             </div>
